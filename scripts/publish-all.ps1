@@ -10,3 +10,6 @@ foreach ($ident in $runtime_identifiers) {
     Write-Output "----- compressing $ident -----"
     Compress-Archive "bin/Release/net5.0/$ident/publish/*" "publish/$ident.zip" -Force
 }
+
+
+Write-Output "Remember to update 'Program.fs' and 'scripts/install-win-x64.ps1'!"
