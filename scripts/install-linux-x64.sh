@@ -1,4 +1,4 @@
-zipurl="https://github.com/fourtf/bigdiff/releases/download/v1.0/linux-x64.zip"
+zipurl="https://github.com/fourtf/bigdiff/releases/download/v1.1/linux-x64.zip"
 installpath="$HOME/.local/bin/bigdiff"
 zipname="dl.zip"
 zipdlpath="$installpath/$zipname"

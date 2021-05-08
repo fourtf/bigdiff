@@ -56,7 +56,7 @@ module Program =
     [<EntryPoint>]
     let main (args: string []) =
         if Array.tryHead args = Some "--version" then
-            Console.WriteLine "bigdiff v1.0"
+            Console.WriteLine "bigdiff v1.1"
             0
         else
             AppBuilder

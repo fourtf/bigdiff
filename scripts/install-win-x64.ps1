@@ -1,4 +1,4 @@
-$zipurl = "https://github.com/fourtf/bigdiff/releases/download/v1.0/win-x64.zip"
+$zipurl = "https://github.com/fourtf/bigdiff/releases/download/v1.1/win-x64.zip"
 $installpath = "$env:LOCALAPPDATA/bigdiff"
 $zipdlpath = "$installpath/dl.zip"
 
