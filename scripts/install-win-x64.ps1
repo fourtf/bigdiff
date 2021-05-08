@@ -21,6 +21,8 @@ if ($confirmation -match "[yY]") {
 
         if ($confirmation -match "[yY]") {
             [System.Environment]::SetEnvironmentVariable('Path', $path + ";" + $installpath, [System.EnvironmentVariableTarget]::User);
+
+            Write-Output "Since the PATH variable was just edited you may need to restart your terminal."
         }
     }
 }
