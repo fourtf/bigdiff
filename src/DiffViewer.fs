@@ -13,7 +13,8 @@ module DiffViewer =
     let internal fgUnchanged = Brush.Parse("#F3F4F6")
     let internal fgHunkInfo = Brush.Parse("#A78BFA")
     let internal fgMiscInfo = Brush.Parse("#999999")
-    let internal bgSearch = Brush.Parse("#393939")
+    let internal bgSearch = Brush.Parse("#333333")
+    let internal bgList = Brush.Parse("#444444")
 
     let internal fontFamily =
         FontFamily.Parse("Consolas, Courier New, Courier, Liberation Mono, monospace")
@@ -33,11 +34,22 @@ module DiffViewer =
           searchTerm = "" }
 
     type Msg =
+        | SelectionIndexChanged of int
         | SelectItem of DiffItem
         | ChangeSearchTerm of string
 
+    let filterItems (searchTerm: string) = 
+        Seq.ofArray
+        >> Seq.filter (fun (d: DiffItem) -> d.title.Contains(searchTerm))
+
     let update (msg: Msg) (state: State) : State =
         match msg with
+        | SelectionIndexChanged index -> {
+                state with currentItem =
+                               state.diff
+                               |> filterItems state.searchTerm
+                               |> Seq.tryItem index
+            }
         | SelectItem item -> { state with currentItem = Some item }
         | ChangeSearchTerm term -> { state with searchTerm = term }
 
@@ -84,9 +96,13 @@ module DiffViewer =
 
     let viewItemSelection (diff: Diff) (searchTerm: string) dispatch : IView =
         let viewButton item : IView =
-            upcast Button.create [ Button.content item.title
-                                   Button.fontSize fontSize
-                                   Button.onClick (fun _ -> dispatch (SelectItem item)) ]
+            upcast ListBoxItem.create [
+                ListBoxItem.padding 10.0
+                ListBoxItem.fontSize fontSize
+                ListBoxItem.content (
+                    TextBlock.create [TextBlock.text item.title]
+                )
+            ]
 
         upcast
             DockPanel.create [
@@ -103,18 +119,20 @@ module DiffViewer =
                         TextBox.onTextChanged (ChangeSearchTerm >> dispatch)
                     ]
 
-                    ScrollViewer.create [
-                        ScrollViewer.content (
-                            upcast StackPanel.create [
-                                StackPanel.dock Dock.Left
-                                StackPanel.children (
-                                    diff
-                                    |> Seq.ofArray
-                                    |> Seq.filter (fun d -> d.title.Contains(searchTerm))
-                                    |> Seq.map viewButton
-                                    |> List.ofSeq) ]: IView
-                                )
-                            ]
+                    ListBox.create [
+                        ListBox.dock Dock.Left
+                        ListBox.virtualizationMode ItemVirtualizationMode.None
+                        ListBox.borderThickness 0.0
+                        ListBox.onSelectedIndexChanged (SelectionIndexChanged >> dispatch)
+                        ListBox.background bgList
+
+                        ListBox.viewItems (
+                            diff
+                            |> filterItems searchTerm
+                            |> Seq.map viewButton
+                            |> List.ofSeq
+                        )
+                    ]
                 ]
             ]
 
