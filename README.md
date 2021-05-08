@@ -25,7 +25,7 @@ iwr https://raw.githubusercontent.com/fourtf/bigdiff/main/scripts/install-win-x6
 Run the following in a terminal compatible with sh:
 
 ```sh
-wget https://raw.githubusercontent.com/fourtf/bigdiff/main/scripts/install-linux-x64.sh | sh
+wget -nv https://raw.githubusercontent.com/fourtf/bigdiff/main/scripts/install-linux-x64.sh -O install-bigdiff.sh && sh install-bigdiff.sh; rm install-bigdiff.sh
 ```
 
 ### macOS
