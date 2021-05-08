@@ -9,7 +9,7 @@ if ($confirmation -match "[yY]") {
     if (Test-Path -Path $installpath) {
         Remove-Item -Path $installpath
     }
-    New-Item -Path $installpath
+    New-Item -Path $installpath -ItemType Directory
     Invoke-WebRequest -Uri $zipurl -OutFile $zipdlpath
     Expand-Archive -Path $zipdlpath -DestinationPath $installpath
 }
