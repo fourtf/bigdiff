@@ -13,4 +13,14 @@ if ($confirmation -match "[yY]") {
     Invoke-WebRequest -Uri $zipurl -OutFile $zipdlpath
     Expand-Archive -Path $zipdlpath -DestinationPath $installpath
     Remove-Item -Path $zipdlpath
+
+
+    $path = [System.Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
+    if (-not $path.ToUpperInvariant().Split(';').Contains($installpath.ToUpperInvariant())) {
+        $confirmation = Read-Host "Do you want to add '$installpath' to your users PATH variable? (y/N)"
+
+        if ($confirmation -match "[yY]") {
+            [System.Environment]::SetEnvironmentVariable('Path', $path + ";" + $installpath, [System.EnvironmentVariableTarget]::User);
+        }
+    }
 }
