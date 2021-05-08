@@ -14,22 +14,23 @@ module DiffViewer =
     let internal fgHunkInfo = Brush.Parse("#A78BFA")
     let internal fgMiscInfo = Brush.Parse("#999999")
     let internal bgSearch = Brush.Parse("#393939")
-    let internal fontFamily = FontFamily.Parse("Consolas, Courier New, Courier, monospace")
-    let internal fontSize: double = 14.0
+
+    let internal fontFamily =
+        FontFamily.Parse("Consolas, Courier New, Courier, Liberation Mono, monospace")
+
+    let internal fontSize : double = 14.0
 
     type State =
         { count: int
           diff: Diff
           currentItem: DiffItem option
-          searchTerm: string
-        }
+          searchTerm: string }
 
     let init (diff2: Diff) =
         { count = 0
           diff = diff2
           currentItem = None
-          searchTerm = ""
-        }
+          searchTerm = "" }
 
     type Msg =
         | SelectItem of DiffItem

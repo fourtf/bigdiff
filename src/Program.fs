@@ -55,8 +55,12 @@ module Program =
 
     [<EntryPoint>]
     let main (args: string []) =
-        AppBuilder
-            .Configure<App>()
-            .UsePlatformDetect()
-            .UseSkia()
-            .StartWithClassicDesktopLifetime(args)
+        if Array.tryHead args = Some "--version" then
+            Console.WriteLine "bigdiff v1.0"
+            0
+        else
+            AppBuilder
+                .Configure<App>()
+                .UsePlatformDetect()
+                .UseSkia()
+                .StartWithClassicDesktopLifetime(args)
